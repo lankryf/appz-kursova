@@ -16,4 +16,14 @@ class RoleRepository implements RoleRepositoryContract
     {
         Role::destroy($ids);
     }
+
+    public function getAll(): Collection
+    {
+        return Role::all();
+    }
+
+    public function getById(int $id): Role
+    {
+        return Role::find($id) ?? Role::null();
+    }
 }

@@ -22,7 +22,7 @@ class AuthController extends Controller
 
         $user = app(UserRepositoryContract::class)->getByEmail($request->get('email'));
 
-        if (! $user || ! Hash::check($request->get('password', ''), $user->getPasswordHash())) {
+        if ($user->isNull() || ! Hash::check($request->get('password', ''), $user->getPasswordHash())) {
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 

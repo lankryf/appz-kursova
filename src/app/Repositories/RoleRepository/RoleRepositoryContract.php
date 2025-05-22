@@ -11,4 +11,8 @@ interface RoleRepositoryContract
 
     public function delete(Collection $ids): void;
 
+    public function getAll(): Collection;
+
+    public function getById(int $id): Role;
+
 }

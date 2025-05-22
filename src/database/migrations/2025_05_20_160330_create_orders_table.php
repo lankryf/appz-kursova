@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger('service_id')->unsigned()->unique();
             $table->string('name');
             $table->string('description')->nullable();
             $table->enum('status', ['pending', 'done', 'canceled'])->default('pending');

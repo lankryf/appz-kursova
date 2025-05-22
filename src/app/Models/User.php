@@ -14,10 +14,6 @@ class User extends Authenticatable
 
     protected $guarded = [];
 
-    protected $casts = [
-        'password' => 'hashed',
-    ];
-
     public function role(): BelongsTo
     {
         return $this->BelongsTo(Role::class);
@@ -26,6 +22,12 @@ class User extends Authenticatable
     public function getRole(): Role
     {
         return $this->role ?? Role::null();
+    }
+
+    public function setRole(Role $role): self
+    {
+        $this->role()->associate($role);
+        return $this;
     }
 
     public function getPasswordHash(): string

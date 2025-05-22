@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait NullObject
 {
-    protected bool $isNull = true;
+    protected bool $isNull = false;
 
     public function isNull(): bool
     {

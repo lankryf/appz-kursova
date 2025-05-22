@@ -34,4 +34,9 @@ class Role extends Model
     {
         return $this->name;
     }
+
+    public function getId(): int
+    {
+        return (int)$this->id;
+    }
 }
