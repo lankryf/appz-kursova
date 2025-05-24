@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Repositories\OrderRepository\OrderRepositoryContract;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index(int $id) {
+    public function index(int $id): JsonResponse
+    {
         $order = app(OrderRepositoryContract::class)->getByServiceId($id);
         if ($order->isNull()) {
             return response()->json([
@@ -25,7 +27,8 @@ class OrderController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request): JsonResponse
+    {
         $request->validate([
             'service_id'     => ['required', 'integer'],
             'name'           => ['required', 'string', 'max:255'],
@@ -50,8 +53,45 @@ class OrderController extends Controller
         return response()->json($order);
     }
 
-    public function destroy(int $id) {
-
+    public function destroy(int $id): JsonResponse
+    {
+        $order = app(OrderRepositoryContract::class)->getByServiceId($id);
+        if ($order->isNull()) {
+            return response()->json(
+                [
+                    'message' => 'Order not found'
+                ],
+                404
+            );
+        }
+        app(OrderRepositoryContract::class)->destroy(collect([$order->getId()]));
+        return response()->json([
+            'message' => 'Order has been deleted'
+        ]);
     }
 
+    public function update(Request $request, int $id): JsonResponse
+    {
+        $validated = $request->validate([
+            'name'           => ['string', 'max:255'],
+            'description'    => ['string', 'max:255'],
+            'status'         => ['string', 'max:255', 'in:pending,canceled,done'],
+            'delivery_date'  => ['date', 'after:today', 'date_format:Y-m-d'],
+        ]);
+
+        $order = app(OrderRepositoryContract::class)->getByServiceId($id);
+        if ($order->isNull()) {
+            return response()->json(
+                [
+                    'message' => 'Order not found'
+                ],
+                404
+            );
+        }
+        $order = app(OrderRepositoryContract::class)->update(
+            $validated,
+            $order
+        );
+        return response()->json(collect($order)->only(['status', 'name', 'description', 'delivery_date']));
+    }
 }

@@ -22,4 +22,15 @@ class OrderRepository implements OrderRepositoryContract
     {
         return Order::all();
     }
+
+    public function destroy(Collection $ids): void
+    {
+        Order::destroy($ids);
+    }
+
+    public function update(array $data, Order $order): Order
+    {
+        $order->update($data);
+        return $order;
+    }
 }

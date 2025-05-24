@@ -13,4 +13,7 @@ interface OrderRepositoryContract
 
     public function getAll(): Collection;
 
+    public function destroy(Collection $ids): void;
+
+    public function update(array $data, Order $order): Order;
 }

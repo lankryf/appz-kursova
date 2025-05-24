@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Role;
-use App\Models\User;
 use App\Repositories\UserRepository\UserRepositoryContract;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use PHPUnit\Exception;
 
 class AuthController extends Controller
 {
