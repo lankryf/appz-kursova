@@ -14,14 +14,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'has_privilege'])->group(function () {
     Route::get('orders/{id}', [OrderController::class, 'index']);
     Route::delete('orders/{id}', [OrderController::class, 'destroy']);
     Route::post('orders', [OrderController::class, 'store']);
     Route::patch('orders/{id}', [OrderController::class, 'update']);
 });
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('assign_role', [RolesController::class, 'setRole']);
     Route::get('roles', [RolesController::class, 'index']);
 });
