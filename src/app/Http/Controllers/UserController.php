@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function me(Request $request): JsonResponse
+    public function me(): JsonResponse
     {
-        $user = $request->user();
+        $user = auth('sanctum')->user();
         if (is_null($user)) {
             return response()->json([
             'id' => null,
