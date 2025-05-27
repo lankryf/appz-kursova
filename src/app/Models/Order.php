@@ -14,7 +14,7 @@ class Order extends Model
 
     protected $guarded = [];
 
-    private function getId(): int
+    public function getId(): int
     {
         return (int)$this->id;
     }
